@@ -35,8 +35,8 @@ export class CreateEvent extends Component {
                         <input type="text" id="title" onChange={this.handleChange} required />
                     </div>
                     <div className="input-field">
-                        <label htmlFor="attendees">Attendees</label>
-                        <input type="text" id="attendees" onChange={this.handleChange} required />
+                        <label htmlFor="attendees">Max number of Attendees</label>
+                        <input type="number" id="attendees" onChange={this.handleChange} required />
                     </div>
                     <div className="input-field">
                         <label htmlFor="place">Place</label>

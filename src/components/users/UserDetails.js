@@ -3,33 +3,29 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
-import moment from 'moment';
-import { deleteEvent } from '../../store/actions/eventActions';
+import { deleteUser } from '../../store/actions/userActions';
 import { NavLink } from 'react-router-dom';
 
-export class EventDetails extends Component {
+export class UserDetails extends Component {
     handleDelete = (e) => {
-        this.props.deleteEvent(this.props.match.params.id);
-        this.props.history.push('/');
+        this.props.deleteUser(this.props.match.params.id);
+        this.props.history.push('/user');
     }
     render() {
-        const { event, auth } = this.props;
+        const { user, auth } = this.props;
         if (!auth.uid) return <Redirect to='/signin' />
 
-        if (event) {
+        if (user) {
             return (
                 <div className="container section project-details">
-                    <div className="card z-depth-0">
+                    <div className="card">
                         <div className="card-content">
-                            <span className="card-title">{event.title}</span>
-                            <p><strong>Attendees: </strong>{event.attendees}</p>
-                            <p><strong>Available Seats: </strong>{event.attendees - event.booked.length}</p>
-                            <p><strong>Place: </strong>{event.place}</p>
-                            <p><strong>Date: </strong>{moment(event.createdAt.toDate()).calendar()}</p>
-                            <p><strong>Description: </strong>{event.description}</p>
+                            <span className="card-title">{user.name}</span>
+                            <p><strong>Phone number: </strong>{user.phone}</p>
+                            <p><strong>E-mail: </strong>{user.email}</p>
                             <br />
                             <div className="card-action actions">
-                                <NavLink to={'/update/' + this.props.match.params.id} key={event.id} className="btn green darken-1">update</NavLink>
+                                <NavLink to={'/update/' + this.props.match.params.id} key={user.id} className="btn green darken-1">update</NavLink>
                                 <button className="btn red darken-4" onClick={this.handleDelete}>delete</button>
                             </div>
                         </div>
@@ -39,7 +35,7 @@ export class EventDetails extends Component {
         } else {
             return (
                 <div className="container center">
-                    <p>Loading Event...</p>
+                    <p>Loading User...</p>
                 </div>
             )
         }
@@ -48,23 +44,24 @@ export class EventDetails extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     const id = ownProps.match.params.id;
-    const events = state.firestore.data.events;
-    const event = events ? events[id] : null;
+    const users = state.firestore.data.users;
+    const user = users ? users[id] : null;
+
     return {
-        event: event,
+        user,
         auth: state.firebase.auth
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        deleteEvent: (event_id) => dispatch(deleteEvent(event_id))
+        deleteUser: (user_id) => dispatch(deleteUser(user_id))
     }
 }
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
-        { collection: 'events' }
+        { collection: 'users' }
     ])
-)(EventDetails);
+)(UserDetails);

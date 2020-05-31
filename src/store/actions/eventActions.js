@@ -8,12 +8,12 @@ export const createEvent = (event) => {
             authorFirstName: profile.firstName,
             authorLastName: profile.lastName,
             authorId: authorId,
+            booked: [],
             createdAt: new Date()
 
         }).then(() => {
             dispatch({ type: 'CREATE_EVENT', event });
         }).catch((err) => {
-            console.log(err)
             dispatch({ type: 'CREATE_EVENT_ERROR', err });
         })
     }
@@ -37,6 +37,20 @@ export const updateEvent = (event, event_id) => {
             dispatch({ type: 'EVENT_UPDATED' });
         }).catch((err) => {
             dispatch({ type: 'EVENT_NOT_UPDATED' });
+        })
+    }
+}
+
+export const bookEvent = (event_id, bookings, userId) => {
+
+    const newBooking = [ ...bookings, userId]
+    return (dispatch, getState, { getFirestore }) => {
+        const firestore = getFirestore();
+        firestore.update({ collection: 'events', doc: event_id }, {booked: newBooking}).then(() => {
+            dispatch({ type: 'EVENT_BOOKED' });
+        }).catch((err) => {
+            console.log(err);
+            dispatch({ type: 'EVENT_NOT_BOOKED' });
         })
     }
 }

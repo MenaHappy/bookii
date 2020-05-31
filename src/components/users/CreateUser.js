@@ -17,7 +17,7 @@ export class CreateUser extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.createUser(this.state);
-        this.props.history.push('/');
+        this.props.history.push('/user');
     }
     onChange = date => this.setState({ date })
     render() {
@@ -57,7 +57,7 @@ const mapStateToProps = (state) => {
 
 const madDispatchToProps = (dispatch) => {
     return {
-        createUser: (event) => dispatch(createUser(event))
+        createUser: (user) => dispatch(createUser(user))
     }
 }
 

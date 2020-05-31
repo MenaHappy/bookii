@@ -22,6 +22,12 @@ const eventReducer = (state = initState, action) => {
         case 'EVENT_NOT_UPDATED':
             console.log('event NOT updated');
             return state;
+        case 'EVENT_BOOKED':
+            console.log('event booked');
+            return state;
+        case 'EVENT_NOT_BOOKED':
+            console.log('event NOT booked');
+            return state;
 
         default:
             return state;

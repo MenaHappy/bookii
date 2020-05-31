@@ -10,8 +10,18 @@ export const createUser = (event) => {
         }).then(() => {
             dispatch({ type: 'CREATE_USER', event });
         }).catch((err) => {
-            console.log(err)
             dispatch({ type: 'CREATE_USER_ERROR', err });
         })
     }
 };
+
+export const deleteUser = (user_id) => {
+    return (dispatch, getState, { getFirestore }) => {
+        const firestore = getFirestore();
+        firestore.delete({ collection: 'users', doc: user_id }).then(() => {
+            dispatch({ type: 'USER_DELETED' });
+        }).catch((err) => {
+            dispatch({ type: 'USER_NOT_DELETED' });
+        })
+    }
+}

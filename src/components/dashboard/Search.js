@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Redirect } from 'react-router-dom';
 
 class Search extends Component {
     constructor(props) {
@@ -14,8 +13,6 @@ class Search extends Component {
         this.props.onSearch(e.target.value)
     }
     render() {
-        const { auth } = this.props;
-        if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit} className="white">

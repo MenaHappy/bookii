@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-const EventSummary = ({event}) => {
+const BookEventDetails = ({event}) => {
     return (
         <div className="card project-summary">
             <div className="card-content grey-text text-darken-3">
@@ -14,4 +14,4 @@ const EventSummary = ({event}) => {
     )
 }
 
-export default EventSummary;
+export default BookEventDetails;

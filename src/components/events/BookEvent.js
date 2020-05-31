@@ -2,24 +2,22 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
-import { Redirect } from 'react-router-dom';
 import moment from 'moment';
-import { deleteEvent } from '../../store/actions/eventActions';
-import { NavLink } from 'react-router-dom';
+import { bookEvent } from '../../store/actions/eventActions';
 
-export class EventDetails extends Component {
-    handleDelete = (e) => {
-        this.props.deleteEvent(this.props.match.params.id);
+export class BookEvent extends Component {
+    book = () => {
+        console.log(this.props);
+        this.props.bookEvent(this.props.match.params.id, this.props.event.booked);
         this.props.history.push('/');
     }
     render() {
-        const { event, auth } = this.props;
-        if (!auth.uid) return <Redirect to='/signin' />
+        const { event } = this.props;
 
         if (event) {
             return (
                 <div className="container section project-details">
-                    <div className="card z-depth-0">
+                    <div className="card">
                         <div className="card-content">
                             <span className="card-title">{event.title}</span>
                             <p><strong>Attendees: </strong>{event.attendees}</p>
@@ -29,8 +27,7 @@ export class EventDetails extends Component {
                             <p><strong>Description: </strong>{event.description}</p>
                             <br />
                             <div className="card-action actions">
-                                <NavLink to={'/update/' + this.props.match.params.id} key={event.id} className="btn green darken-1">update</NavLink>
-                                <button className="btn red darken-4" onClick={this.handleDelete}>delete</button>
+                                <button className="btn red darken-4" onClick={this.book}>Book</button>
                             </div>
                         </div>
                     </div>
@@ -58,7 +55,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        deleteEvent: (event_id) => dispatch(deleteEvent(event_id))
+        bookEvent: (event_id, state) => dispatch(bookEvent(event_id, state))
     }
 }
 
@@ -67,4 +64,4 @@ export default compose(
     firestoreConnect([
         { collection: 'events' }
     ])
-)(EventDetails);
+)(BookEvent);

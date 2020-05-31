@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import EventList from '../events/EventsList';
+import UsersList from './UsersList';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
-import Search from './Search';
+import { Redirect } from 'react-router-dom';
+import Search from '../dashboard/Search';
 
-class Dashboard extends Component {
+class Users extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -16,15 +17,15 @@ class Dashboard extends Component {
         this.setState({ search: searchValue });
     }
     render() {
-        const { events, auth } = this.props;
-
+        const { users, auth } = this.props;
+        if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="dashboard container">
-                {events && events.length > 0 ? <Search onSearch={this.handleSearch} /> : <span></span>}
+                {users && users.length > 0 ? <Search onSearch={this.handleSearch} /> : <span></span>}
                 <div className="row">
-                    {events ? (
+                    {users ? (
                         <div className="col s12 m12">
-                            <EventList auth={auth} searchValue={this.state.search} events={events} />
+                            <UsersList searchValue={this.state.search} users={users} />
                         </div>)
                         : <p style={pStyle}>Loading...</p>}
                 </div>
@@ -42,7 +43,7 @@ const pStyle = {
 
 const mapStateToProps = (state) => {
     return {
-        events: state.firestore.ordered.events,
+        users: state.firestore.ordered.users,
         auth: state.firebase.auth
     }
 }
@@ -50,6 +51,6 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-        { collection: 'events', orderBy: ['createdAt', 'desc'] }
+        { collection: 'users', orderBy: ['createdAt', 'desc'] }
     ])
-)(Dashboard)
+)(Users)
