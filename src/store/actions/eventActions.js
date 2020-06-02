@@ -41,15 +41,14 @@ export const updateEvent = (event, event_id) => {
     }
 }
 
-export const bookEvent = (event_id, bookings, userId) => {
+export const bookEvent = (event_id, userId) => {
 
-    const newBooking = [ ...bookings, userId]
     return (dispatch, getState, { getFirestore }) => {
         const firestore = getFirestore();
-        firestore.update({ collection: 'events', doc: event_id }, {booked: newBooking}).then(() => {
+
+        firestore.update({ collection: 'events', doc: event_id }, {booked: firestore.FieldValue.arrayUnion(userId)}).then(() => {
             dispatch({ type: 'EVENT_BOOKED' });
         }).catch((err) => {
-            console.log(err);
             dispatch({ type: 'EVENT_NOT_BOOKED' });
         })
     }

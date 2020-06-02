@@ -4,13 +4,26 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import moment from 'moment';
 import { bookEvent } from '../../store/actions/eventActions';
+import { checkIfUserExists } from '../users/lib/helperFunctions';
 
 export class BookEvent extends Component {
-    book = () => {
-        console.log(this.props);
-        this.props.bookEvent(this.props.match.params.id, this.props.event.booked);
+    state = {
+        name: '',
+        phone: '',
+        email: ''
+    }
+    handleChange = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
+    initBooking = async (e) =>{
+        e.preventDefault();
+        const userObject = await checkIfUserExists(this.state);
+        this.props.bookEvent(this.props.match.params.id, userObject[0].docs[0].id);
         this.props.history.push('/');
     }
+
     render() {
         const { event } = this.props;
 
@@ -26,9 +39,25 @@ export class BookEvent extends Component {
                             <p><strong>Date: </strong>{moment(event.createdAt.toDate()).calendar()}</p>
                             <p><strong>Description: </strong>{event.description}</p>
                             <br />
-                            <div className="card-action actions">
-                                <button className="btn red darken-4" onClick={this.book}>Book</button>
-                            </div>
+                            <form onSubmit={this.initBooking} className="white">
+                                <h5 className="greay=text text-darken-3">Enter Details</h5>
+                                <div className="input-field">
+                                    <label htmlFor="name">Name</label>
+                                    <input type="text" id="name" onChange={this.handleChange} required />
+                                </div>
+                                <div className="input-field">
+                                    <label htmlFor="phone">Phone number</label>
+                                    <input type="text" id="phone" onChange={this.handleChange} required />
+                                </div>
+                                <div className="input-field">
+                                    <label htmlFor="email">E-mail</label>
+                                    <input type="text" id="email" onChange={this.handleChange} required />
+                                </div>
+                                <div className="input-field">
+                                    <button className="btn red darken-4">Book</button>
+                                </div>
+
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -49,13 +78,14 @@ const mapStateToProps = (state, ownProps) => {
     const event = events ? events[id] : null;
     return {
         event: event,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        currentUserData : state.currentUserData
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        bookEvent: (event_id, state) => dispatch(bookEvent(event_id, state))
+        bookEvent: (event_id, userId) => dispatch(bookEvent(event_id, userId))
     }
 }
 

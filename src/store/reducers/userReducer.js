@@ -1,5 +1,5 @@
 const initState = {
-    events: []
+    users: []
 }
 
 const userReducer = (state = initState, action) => {
@@ -22,7 +22,6 @@ const userReducer = (state = initState, action) => {
         case 'USER_NOT_UPDATED':
             console.log('user not updated');
             return state;
-
         default:
             return state;
     }
