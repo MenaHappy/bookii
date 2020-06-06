@@ -20,7 +20,9 @@ export class BookEvent extends Component {
     initBooking = async (e) =>{
         e.preventDefault();
         const userObject = await checkIfUserExists(this.state);
-        this.props.bookEvent(this.props.match.params.id, userObject[0].docs[0].id);
+        const userId = userObject[0].docs[0].id;
+        const userData = userObject[0].docs[0].data();
+        this.props.bookEvent(this.props.match.params.id, { id: userId, ...userData });
         this.props.history.push('/');
     }
 

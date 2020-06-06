@@ -34,6 +34,28 @@ export class EventDetails extends Component {
                             </div>
                         </div>
                     </div>
+
+                    <h2> Booking list</h2>
+                    <table class="striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>E-mail</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {
+                            event.booked.map(({ name, phone, email }) => {
+                                return <tr>
+                                    <td> { name }</td>
+                                    <td> { phone }</td>
+                                    <td> { email }</td>
+                                </tr>
+                            })
+                        }
+                        </tbody>
+                    </table>
                 </div>
             )
         } else {
