@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import moment from 'moment';
 import { bookEvent } from '../../store/actions/eventActions';
 import { checkIfUserExists } from '../users/lib/helperFunctions';
+import { isEventFinished } from '../../util/formValidators';
 
 export class BookEvent extends Component {
     state = {
@@ -41,25 +42,29 @@ export class BookEvent extends Component {
                             <p><strong>Date: </strong>{moment(event.createdAt.toDate()).calendar()}</p>
                             <p><strong>Description: </strong>{event.description}</p>
                             <br />
-                            <form onSubmit={this.initBooking} className="white">
-                                <h5 className="greay=text text-darken-3">Enter Details</h5>
-                                <div className="input-field">
-                                    <label htmlFor="name">Name</label>
-                                    <input type="text" id="name" onChange={this.handleChange} required />
-                                </div>
-                                <div className="input-field">
-                                    <label htmlFor="phone">Phone number</label>
-                                    <input type="text" id="phone" onChange={this.handleChange} required />
-                                </div>
-                                <div className="input-field">
-                                    <label htmlFor="email">E-mail</label>
-                                    <input type="text" id="email" onChange={this.handleChange} required />
-                                </div>
-                                <div className="input-field">
-                                    <button className="btn red darken-4">Book</button>
-                                </div>
+                            { 
+                            isEventFinished(event.date.toDate()) ?
+                                <p className="red-text text-darken-2">Event Finished</p> 
+                                : <form onSubmit={this.initBooking} className="white">
+                                    <h5 className="greay=text text-darken-3">Enter Details</h5>
+                                    <div className="input-field">
+                                        <label htmlFor="name">Name</label>
+                                        <input type="text" id="name" onChange={this.handleChange} required />
+                                    </div>
+                                    <div className="input-field">
+                                        <label htmlFor="phone">Phone number</label>
+                                        <input type="text" id="phone" onChange={this.handleChange} required />
+                                    </div>
+                                    <div className="input-field">
+                                        <label htmlFor="email">E-mail</label>
+                                        <input type="text" id="email" onChange={this.handleChange} required />
+                                    </div>
+                                    <div className="input-field">
+                                        <button className="btn red darken-4">Book</button>
+                                    </div>
 
-                            </form>
+                                </form>
+                            }
                         </div>
                     </div>
                 </div>
