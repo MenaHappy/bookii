@@ -12,3 +12,11 @@ const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\
 export const emailValidation = ( value ) => {
     return emailRegex.test(value) ? null: "invalid email address";
 };
+
+export const positiveNamberValidation = ( value ) => {
+    return value < 1 ? "must be a positive number" : null;
+};
+
+export const futureDateValidation = ( value ) => {
+    return new Date(value).getTime() < new Date().getTime() ? "new event date must be set in the future" : null;
+};

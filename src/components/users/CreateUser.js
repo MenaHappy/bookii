@@ -40,11 +40,7 @@ export class CreateUser extends Component {
             email: emailValidation(this.state.email)
         }
         
-        this.setState({formErrors})
-        
-        console.log(formErrors);
-        console.log(Object.values(formErrors).filter(value=>value !== null ).length);
-        
+        this.setState({formErrors})        
         if(Object.values(formErrors).filter(value=>value !== null ).length === 0) return true;
         
         return false;    

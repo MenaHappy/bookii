@@ -36,7 +36,7 @@ export class EventDetails extends Component {
                     </div>
 
                     <h2> Booking list</h2>
-                    <table class="striped">
+                    <table className="striped">
                         <thead>
                         <tr>
                             <th>Name</th>
