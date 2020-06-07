@@ -6,6 +6,8 @@ import { Redirect } from 'react-router-dom';
 import moment from 'moment';
 import { deleteEvent } from '../../store/actions/eventActions';
 import { NavLink } from 'react-router-dom';
+import { isEventFinished } from '../../util/formValidators';
+
 
 export class EventDetails extends Component {
     handleDelete = (e) => {
@@ -28,10 +30,14 @@ export class EventDetails extends Component {
                             <p><strong>Date: </strong>{moment(event.createdAt.toDate()).calendar()}</p>
                             <p><strong>Description: </strong>{event.description}</p>
                             <br />
-                            <div className="card-action actions">
-                                <NavLink to={'/update/' + this.props.match.params.id} key={event.id} className="btn green darken-1">update</NavLink>
-                                <button className="btn red darken-4" onClick={this.handleDelete}>delete</button>
-                            </div>
+                            { isEventFinished(event.date.toDate()) ?
+                            <p className="red-text text-darken-2">Event Finished</p> 
+                            : <div className="card-action actions">
+                            <NavLink to={'/update/' + this.props.match.params.id} key={event.id} className="btn green darken-1">update</NavLink>
+                            <button className="btn red darken-4" onClick={this.handleDelete}>delete</button>
+                        </div>}
+
+
                         </div>
                     </div>
 

@@ -20,3 +20,7 @@ export const positiveNamberValidation = ( value ) => {
 export const futureDateValidation = ( value ) => {
     return new Date(value).getTime() < new Date().getTime() ? "new event date must be set in the future" : null;
 };
+
+export const isEventFinished = ( value ) => {
+    return new Date(value).getTime() < new Date().getTime() ? true : false;
+};
