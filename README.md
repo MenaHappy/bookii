@@ -1,3 +1,13 @@
+## project Brief
+
+This is a custom booking system that only predefiend users can book events on.
+
+project was bulit using React/Redux as a front-end and utilise firebase as a data store te simplify the stack since logic is simple and there is no need for a backend while this can still be achieved using firebase stack it was out of this project scope.
+
+Feel free to use the project/modify as you please.
+
+Feedback/request is also appreciated 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
